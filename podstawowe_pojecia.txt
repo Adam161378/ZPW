@@ -1,0 +1,15 @@
+Repozytorium – folder z projektem i historią zmian.
+
+GitHub / Bitbucket / GitLab – strony, gdzie trzymasz projekty online.
+
+Git – program do zapisywania i śledzenia zmian w projekcie.
+
+Commit – zapisanie zmian.
+
+Branch – osobna wersja projektu do pracy nad czymś nowym.
+
+Checkout – przełączenie się na inną gałąź.
+
+Merge – połączenie dwóch gałęzi.
+
+Rebase – przeniesienie zmian na nowszą wersję projektu.
