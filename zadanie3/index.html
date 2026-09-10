@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
+    <title>Zadania jquery</title>
+    <script>
+  $(function(){
+    //$("button").on("click",function(){
+    //    console.log("test dzialania");
+   // })
+
+    // $("button").click(function(){
+     //   console.log("test dzialania 2");
+   // })
+     //  $("button").click(function(){
+      // alert("Cześć!")
+   // })
+
+    // $("button").click(function(){
+     //  $("#komunikat").text("Cześć!");
+   // })
+   // $("#kwadrat").click(function(){
+       //     $("#kwadrat").css("background-color", "red"); 
+   // })
+
+    //$("#resetuj").click(function(){
+        // $("#kwadrat").css("background-color", "lightgray"); 
+        // $("#komunikat").text("")
+   // })
+  let licznik = 0;
+    $("#kwadrat").click(function(){
+      licznik++
+        $("#paragraf").text("Kliknieto: " + licznik);
+
+    })
+
+    
+    //let $zmmienna = <kod jquery>
+
+
+  })
+    </script>
+   <style>
+ #kwadrat { width: 150px; height: 150px; background: lightgray; }
+   </style>
+</head>
+<body>
+     <button id="przywitaj">Przywitaj się</button>
+      <button id="resetuj">resetuj</button>
+  <p id="komunikat"></p>
+ <p id="paragraf"></p>
+  <div id="kwadrat"></div>
+ 
+</body>
+</html>
