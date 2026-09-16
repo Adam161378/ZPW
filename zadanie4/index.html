@@ -6,40 +6,40 @@
     <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
     <title>Zadania jquery</title>
     <script>
-$(function(){
-
-    //Dodanie na koniec
-  $("#naKoniec").click(function(){
-    let $napis = $("#produkt").val();
-    if(produkt.lenght > 0){
-    $("#lista").append('<li>'+ $napis + '</li>' );
-    $("li").last().css({
-        "color":"blue", 
-        "font-weight":"bold"
+$(function () {
+    // Dodanie na koniec
+    $("#naKoniec").click(function () {
+        let napis = $("#produkt").val().trim(); 
+        if (napis.length > 0) {
+            $("#lista").append('<li>' + napis + '</li>');
+            $("li").last().css({
+                "color": "blue",
+                "font-weight": "bold"
+            });
+        }
+        $("#produkt").val(""); 
     });
-}
-$("input").val("");
-  })
 
-    //Dodanie na początek
-  $("#naPoczatek").click(function(){
-      let $napis = $("#produkt").val();
-          if(produkt.lenght > 0){
-    $("#lista").prepend('<li>' + $napis + '</li>');
-       $("li").first().css("color", "green");
-  }
-  $("input").val("");
+    // Dodanie na początek
+    $("#naPoczatek").click(function () {
+        let napis = $("#produkt").val().trim();
+        if (napis.length > 0) {
+            $("#lista").prepend('<li>' + napis + '</li>');
+            $("li").first().css("color", "green");
+        }
+        $("#produkt").val("");
+    });
+
+    // Włączanie/wyłączanie przycisku
+    $("#accept").click(function () {
+        if (this.checked) {
+            $("#fdfd").removeAttr("disabled");
+        } else {
+            $("#fdfd").attr("disabled", "disabled");
+        }
+    });
 });
 
-$("#accept").click(function(){
-    if(this.checked){
-    $("#fdfd").removeAttr("disabled");
-    }else{
-        $("#fdfd").attr("disabled", "disabled")
-    }
-})
-
-})
 
 
 
