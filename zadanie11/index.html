@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efekty jQuery</title>
+
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+
+    <script>
+$(function(){
+    $("#sprawdz").click(function(){
+        let name = $("#imie").val().trim()
+
+        if(name === ""){
+            $("#blad").text("Pole jest wymagane")
+            $("#blad").css("color", "red")
+        }else{
+              $("#blad").text("Twoje imie to: " + name)
+                 $("#blad").css("color", "green")
+        }
+    })
+
+$("#send").click(function(e){
+    let surname = $("#nazwisko").val().trim()
+
+    if(surname === ""){
+        e.preventDefault()  
+        $("#wynik").text("Podaj nazwisko").css("color", "red")
+    } else {
+        $("#wynik").text("Twoje nazwisko to: " + surname).css("color", "green")
+      
+    }
+})
+
+$("#sprawdzWiek").click(function() {
+    let wiek = Number($("#wiek").val().trim());
+
+    if (isNaN(wiek) || wiek < 0) {
+        $("#bladWiek")
+            .text("Wiek musi być liczbą")
+            .css("color", "red");
+    } else {
+        $("#bladWiek")
+            .text("Twój wiek to: " + wiek)
+            .css("color", "green");
+    }
+})
+
+$("#Zapisz").click(function () {
+
+    let ocena = Number($("#ocena").val().trim());
+
+  
+    if (!isNaN(ocena) && ocena >= 1 && ocena <= 6) {
+        $("#bladOcen")
+            .text("Zapisano ocenę: " + ocena)
+            .css("color", "green");
+    } else {
+        $("#bladOcen")
+            .text("Ocena nie spełnia wymagań")
+            .css("color", "red");
+    }
+})
+})
+
+    </script>
+</head>
+
+<body>
+<input type="text" id="imie">
+<button id="sprawdz">Sprawdz</button>
+<p id="blad"></p>
+<hr>
+<input type="text" id="nazwisko">
+<button id="send">Wyslij</button>
+<p id="wynik"></p>
+<hr>
+<input type="text" id="wiek">
+<button id="sprawdzWiek">Sprawdz</button>
+<p id="bladWiek"></p>
+<hr>
+<input type="text" id="ocena">
+<button id="Zapisz">Zapisz</button>
+<p id="bladOcen"></p>
+</body>
+
+</html>
+
+
