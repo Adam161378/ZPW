@@ -1,0 +1,621 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Powtórka jQuery</title>
+
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        button {
+            margin: 5px 2px;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            box-sizing: border-box;
+        }
+
+        hr {
+            margin: 25px 0;
+        }
+
+        #pudelko {
+            padding: 20px;
+            background-color: lightgray;
+        }
+
+        .zrobione {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+
+    <script>
+        $(function () {
+
+            // ZADANIE 1: Ranking wyników
+
+            $("#ranking li").eq(0).css("background-color", "gold");
+            $("#ranking li").eq(1).css("background-color", "gold");
+
+            $("#ranking li").last().css("font-weight", "bold");
+            $("#ranking li").not(":first").css("color", "gray");
+
+
+            // ZADANIE 2: Obsługa powiadomień
+
+            $("#ukryj").on("click", function () {
+                $("#powiadomienie").hide(400);
+            });
+
+            $("#pokaz").on("click", function () {
+                $("#powiadomienie").show(1000);
+            });
+
+            $("#zmien").on("click", function () {
+                $("#powiadomienie").text("Masz 3 nowe wiadomości!");
+            });
+
+
+            // ZADANIE 3: Obliczanie kosztu koszyka
+
+            $("#oblicz").on("click", function () {
+                let suma = 150 + 80 + 220;
+
+                $("#wynik").text("SUMA: " + suma + " zł");
+
+                if (suma > 400) {
+                    $("#wynik").css("color", "red");
+                } else {
+                    $("#wynik").css("color", "green");
+                }
+            });
+
+
+            // ZADANIE 4: Licznik wpisanych znaków
+
+            $("#wiadomosc").on("input", function () {
+                let ilosc = $(this).val().length;
+
+                $("#licznik").text("Wpisano: " + ilosc + " znaków");
+
+                if (ilosc > 150) {
+                    $("#licznik").css("color", "red");
+                } else {
+                    $("#licznik").css("color", "green");
+                }
+            });
+
+
+            // ZADANIE 5: Losowanie koloru tła
+
+            $("#zmienKolor").on("click", function () {
+                let numer = Math.floor(Math.random() * 3) + 1;
+
+                if (numer == 1) {
+                    $("#pudelko").css("background-color", "red");
+                } else if (numer == 2) {
+                    $("#pudelko").css("background-color", "blue");
+                } else {
+                    $("#pudelko").css("background-color", "green");
+                }
+            });
+
+
+            // ZADANIE 6: Sprawdzanie oceny
+
+            $("#sprawdz").on("click", function () {
+                let ocena = Number($("#ocena").val());
+
+                if (ocena == 6) {
+                    $("#komunikatOceny").text("Celujący!");
+                } else if (ocena == 5 || ocena == 4) {
+                    $("#komunikatOceny").text("Dobra robota!");
+                } else if (ocena == 3 || ocena == 2) {
+                    $("#komunikatOceny").text("Może być lepiej.");
+                } else if (ocena == 1) {
+                    $("#komunikatOceny").text("Trzeba się poprawić.");
+                } else {
+                    $("#komunikatOceny").text("Nieprawidłowa ocena!");
+                }
+            });
+
+
+            // ZADANIE 7: Odblokowywanie przycisku po wpisaniu loginu
+
+            $("#login").on("input", function () {
+                let login = $(this).val().trim().length;
+
+                if (login < 3) {
+                    $("#zaloguj").prop("disabled", true);
+                } else {
+                    $("#zaloguj").prop("disabled", false);
+                }
+            });
+
+
+            // ZADANIE 8: Wyszukiwarka owoców
+
+            $("#szukaj").on("input", function () {
+                let text = $(this).val().toLowerCase().trim();
+
+                $("#owoce li").each(function () {
+                    let owoc = $(this).text().toLowerCase();
+
+                    if (owoc.includes(text)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+
+
+            // ZADANIE 9: Licznik kliknięć
+
+            let licznik = 0;
+
+            $("#kliknij").on("click", function () {
+                licznik += 1;
+                $("#wynikKlikniec").text(licznik);
+            });
+
+            $("#reset").on("click", function () {
+                licznik = 0;
+                $("#wynikKlikniec").text(licznik);
+            });
+
+
+            // ZADANIE 10: Zwiększanie i zmniejszanie tekstu
+
+            let rozmiar = 16;
+
+            $("#wiekszy").on("click", function () {
+                rozmiar += 2;
+                $("#tekst").css("font-size", rozmiar + "px");
+            });
+
+            $("#mniejszy").on("click", function () {
+                rozmiar -= 2;
+                $("#tekst").css("font-size", rozmiar + "px");
+            });
+
+
+            // ZADANIE 11: Lista zadań
+
+            $(".wykonane").on("click", function () {
+                $(this).prev("span").toggleClass("zrobione");
+            });
+
+
+            // ZADANIE 12: Quiz punktowy
+
+            let punkty = 0;
+
+            $("#dobrze").on("click", function () {
+                punkty += 2;
+                $("#punkty").text("Punkty: " + punkty);
+            });
+
+            $("#zle").on("click", function () {
+                if (punkty > 0) {
+                    punkty -= 1;
+                }
+
+                $("#punkty").text("Punkty: " + punkty);
+            });
+
+            $("#koniec").on("click", function () {
+                $("#dobrze").prop("disabled", true);
+                $("#zle").prop("disabled", true);
+                $("#koniec").prop("disabled", true);
+
+                if (punkty >= 10) {
+                    $("#komunikatQuizu").text("Świetny wynik!");
+                } else if (punkty >= 5) {
+                    $("#komunikatQuizu").text("Dobry wynik!");
+                } else {
+                    $("#komunikatQuizu").text("Ćwicz dalej!");
+                }
+            });
+
+            //Zadanie 13
+           let ilosc = 0;
+
+// Obsługa dodawania produktu
+$("#dodajProdukt").on("click", function () {
+    ilosc += 1;
+
+    // Aktualizacja liczby produktów
+    $("#ilosc").text("Liczba produktów: " + ilosc);
+
+    // Aktualizacja komunikatu
+    if(ilosc > 0){  $("#informacja").text("Masz produkty w koszyku!");}
+  
+
+    $("#suma").text("SUMA: " + ilosc * 25 + "PLN")
+});
+
+
+
+$("#usunProdukt").on("click", function () {
+    if (ilosc > 0) {
+        ilosc -= 1;
+    }
+    $("#suma").text("SUMA: " + ilosc * 25 + "PLN")
+
+    $("#ilosc").text("Liczba produktów: " + ilosc);
+
+    if (ilosc === 0) {
+        $("#informacja").text("Koszyk jest pusty!");
+    } else {
+        $("#informacja").text("Masz produkty w koszyku!");
+    }
+        });
+//Zadanie 14
+        $("#czerwony").on("click", function(){
+            $("#kolorTekstu").css("color", "red")
+        })
+        $("#zielony").on("click", function(){
+            $("#kolorTekstu").css("color", "green")
+        })
+        $("#niebieski").on("click", function(){
+            $("#kolorTekstu").css("color", "blue")
+        })
+        $("#przywroc").on("click", function(){
+            $("#kolorTekstu").css("color", "black")
+        })
+        //Zadanie 14
+$("#sprawdzLiczbe").on("click", function(){
+    let liczba = $("#liczba").val().trim()
+if(liczba === ""){
+    $("#wynikLiczby").text("Wpisz liczbe")
+}else{
+        if(liczba % 2 == 0){
+$("#wynikLiczby").text("Liczba parzysta")
+    }else{
+        $("#wynikLiczby").text("Liczba nieparzysta")
+    }
+}
+
+})
+
+
+$("#sprawdzHaslo").on("click", function(){
+    let password = $("#haslo").val().trim()
+
+    if(password === ""){
+        $("#wynikHasla").text("Wpisz hasło!")
+    } else if(password.length < 8){
+        $("#wynikHasla").text("Hasło jest za krótkie!")
+    } else {
+        $("#wynikHasla").text("Hasło jest wystarczająco długie!")
+    }
+
+})
+
+    })
+    </script>
+</head>
+<style>
+    * {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 30px 20px 50px;
+    background: #f1f5f9;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+h2 {
+    margin-top: 32px;
+    margin-bottom: 16px;
+    padding: 14px 18px;
+    background: #ffffff;
+    border-left: 5px solid #6366f1;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    font-size: 21px;
+    color: #312e81;
+}
+
+h2:first-of-type {
+    margin-top: 0;
+}
+
+button {
+    margin: 5px 4px 5px 0;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 7px;
+    background: #4f46e5;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+button:hover:not(:disabled) {
+    background: #3730a3;
+    transform: translateY(-1px);
+}
+
+button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+button:disabled {
+    background: #cbd5e1;
+    color: #64748b;
+    cursor: not-allowed;
+}
+
+input,
+textarea {
+    width: 100%;
+    margin: 6px 0 12px;
+    padding: 11px 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #1e293b;
+    font: inherit;
+}
+
+input:focus,
+textarea:focus {
+    outline: 2px solid #818cf8;
+    border-color: #6366f1;
+}
+
+textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+p,
+ul,
+div {
+    overflow-wrap: anywhere;
+}
+
+p {
+    margin: 12px 0;
+}
+
+ul {
+    padding: 16px 16px 16px 38px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+li {
+    padding: 5px 0;
+}
+
+hr {
+    margin: 32px 0;
+    border: none;
+    border-top: 1px solid #cbd5e1;
+}
+
+#powiadomienie {
+    margin: 12px 0;
+    padding: 14px;
+    border-radius: 7px;
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+#pudelko {
+    margin: 12px 0;
+    padding: 24px;
+    border-radius: 8px;
+    background: lightgray;
+    text-align: center;
+    font-weight: bold;
+}
+
+#wynik,
+#licznik,
+#komunikatOceny,
+#punkty,
+#suma,
+#ilosc,
+#informacja,
+#wynikLiczby,
+#komunikatQuizu {
+    padding: 10px 12px;
+    border-radius: 6px;
+    background: #e2e8f0;
+}
+
+.zrobione {
+    text-decoration: line-through;
+    color: #64748b;
+}
+</style>
+<body>
+
+    <h2>1. Ranking wyników</h2>
+
+    <ul id="ranking">
+        <li>Adam: 1200 pkt</li>
+        <li>Kuba: 950 pkt</li>
+        <li>Ola: 870 pkt</li>
+        <li>Marek: 700 pkt</li>
+        <li>Ania: 500 pkt</li>
+        <li>Piotr: 200 pkt</li>
+    </ul>
+
+    <hr>
+
+    <h2>2. Obsługa powiadomień</h2>
+
+    <div id="powiadomienie">Nowa wiadomość!</div>
+
+    <button id="ukryj">Ukryj</button>
+    <button id="pokaz">Pokaż</button>
+    <button id="zmien">Zmień treść</button>
+
+    <hr>
+
+    <h2>3. Obliczanie kosztu koszyka</h2>
+
+    <p>Klawiatura: 150 zł</p>
+    <p>Mysz: 80 zł</p>
+    <p>Słuchawki: 220 zł</p>
+
+    <button id="oblicz">Oblicz koszt</button>
+    <p id="wynik"></p>
+
+    <hr>
+
+    <h2>4. Licznik wpisanych znaków</h2>
+
+    <textarea
+        id="wiadomosc"
+        maxlength="200"
+        placeholder="Wpisz wiadomość..."
+    ></textarea>
+
+    <p id="licznik">Wpisano: 0 znaków</p>
+
+    <hr>
+
+    <h2>5. Losowanie koloru tła</h2>
+
+    <div id="pudelko">Zmień mój kolor!</div>
+    <button id="zmienKolor">Losuj kolor</button>
+
+    <hr>
+
+    <h2>6. Sprawdzanie oceny</h2>
+
+    <input type="number" id="ocena" placeholder="Podaj ocenę 1-6">
+    <button id="sprawdz">Sprawdź ocenę</button>
+    <p id="komunikatOceny"></p>
+
+    <hr>
+
+    <h2>7. Odblokowywanie przycisku po wpisaniu loginu</h2>
+
+    <input type="text" id="login" placeholder="Wpisz login">
+    <button id="zaloguj" disabled>Zaloguj</button>
+
+    <hr>
+
+    <h2>8. Wyszukiwarka owoców</h2>
+
+    <input type="text" id="szukaj" placeholder="Szukaj owocu">
+
+    <ul id="owoce">
+        <li>Jabłko</li>
+        <li>Banan</li>
+        <li>Pomarańcza</li>
+        <li>Gruszka</li>
+        <li>Ananas</li>
+    </ul>
+
+    <hr>
+
+    <h2>9. Licznik kliknięć</h2>
+
+    <button id="kliknij">Kliknij mnie</button>
+    <p>Liczba kliknięć: <span id="wynikKlikniec">0</span></p>
+    <button id="reset">Resetuj licznik</button>
+
+    <hr>
+
+    <h2>10. Zwiększanie rozmiaru tekstu</h2>
+
+    <p id="tekst">Ten tekst zmieni rozmiar.</p>
+    <button id="wiekszy">Powiększ</button>
+    <button id="mniejszy">Pomniejsz</button>
+
+    <hr>
+
+    <h2>11. Lista zadań</h2>
+
+    <ul id="listaZadan">
+        <li>
+            <span>Przeczytać książkę</span>
+            <button class="wykonane">Wykonane</button>
+        </li>
+        <li>
+            <span>Nauczyć się jQuery</span>
+            <button class="wykonane">Wykonane</button>
+        </li>
+        <li>
+            <span>Posprzątać biurko</span>
+            <button class="wykonane">Wykonane</button>
+        </li>
+    </ul>
+
+    <hr>
+
+    <h2>12. Quiz punktowy</h2>
+
+    <p id="punkty">Punkty: 0</p>
+
+    <button id="dobrze">Dobra odpowiedź</button>
+    <button id="zle">Zła odpowiedź</button>
+    <button id="koniec">Zakończ quiz</button>
+
+    <p id="komunikatQuizu"></p>
+<hr>
+<h2>13. Koszyk zakupowy</h2>
+
+<p id="cena">Cena produktu: 25 zł</p>
+
+<button id="dodajProdukt">Dodaj do koszyka</button>
+<button id="usunProdukt">Usuń z koszyka</button>
+
+<p id="ilosc">Liczba produktów: 0</p>
+<p id="suma">Suma: 0 zł</p>
+<p id="informacja"></p>
+<hr>
+<h2>14. Zmiana koloru tekstu</h2>
+
+<p id="kolorTekstu">Ten tekst zmieni kolor!</p>
+
+<button id="czerwony">Czerwony</button>
+<button id="niebieski">Niebieski</button>
+<button id="zielony">Zielony</button>
+<button id="przywroc">Przywróć kolor</button>
+<hr>
+<h2>15. Parzysta czy nieparzysta?</h2>
+
+<input type="number" id="liczba" placeholder="Wpisz liczbę">
+<button id="sprawdzLiczbe">Sprawdź</button>
+
+<p id="wynikLiczby"></p>
+<hr>
+<h2>16. Sprawdzanie hasła</h2>
+
+<input type="password" id="haslo" placeholder="Wpisz hasło">
+<button id="sprawdzHaslo">Sprawdź hasło</button>
+
+<p id="wynikHasla"></p>
+</body>
+</html>
