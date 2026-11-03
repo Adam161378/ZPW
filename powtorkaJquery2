@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Powtórka jQuery – zestaw 2</title>
+
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        h2 {
+            margin-top: 30px;
+            padding: 12px;
+            background: white;
+            border-left: 5px solid #6366f1;
+            border-radius: 7px;
+        }
+
+        section {
+            background: white;
+            padding: 18px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        button {
+            padding: 9px 14px;
+            margin: 5px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        input {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+        }
+
+        .aktywny {
+            background-color: lightgreen;
+        }
+
+        .zaznaczony {
+            font-weight: bold;
+            color: green;
+        }
+
+        .ukryty {
+            display: none;
+        }
+    </style>
+</head>
+<script>
+$(function(){
+
+    // ZADANIE 1
+    $("#produkty li").each(function(){
+        let text = $(this).text();
+
+        if(text.includes("5/5")){
+            $(this).css("color", "green");
+        }
+
+        if(text.includes("4/5")){
+            $(this).css("font-weight", "bold");
+        }
+
+        if(text.includes("2/5")){
+            $(this).css("color", "red");
+        }
+
+        if(text.includes("4/5") || text.includes("5/5")){
+            $(this).css("font-weight", "bold");
+        }
+    });
+
+    // ZADANIE 2
+    let rozmiar = 20;
+
+    $("#powiekszObrazek").on("click", function(){
+        rozmiar += 5;
+        $("#obrazek").css("font-size", rozmiar + "px");
+    });
+
+    $("#zmniejszObrazek").on("click", function(){
+        if(rozmiar > 10){
+            rozmiar -= 5;
+            $("#obrazek").css("font-size", rozmiar + "px");
+        }
+
+        if(rozmiar <= 10){
+            $("#zmniejszObrazek").prop("disabled", true);
+        }
+    });
+
+    $("#powiekszObrazek").on("click", function(){
+        if(rozmiar > 10){
+            $("#zmniejszObrazek").prop("disabled", false);
+        }
+    });
+
+    // ZADANIE 3
+    $("#sprawdzWiek").click(function(){
+        let wiek = $("#wiek").val().trim();
+
+        if(wiek === ""){
+            $("#wynikWieku").text("Puste pole");
+        }else if(wiek < 13){
+            $("#wynikWieku").text("Jesteś dzieckiem");
+        }else if(wiek >= 13 && wiek <= 17){
+            $("#wynikWieku").text("Jesteś nastolatkiem");
+        }else if(wiek >= 18 && wiek <= 64){
+            $("#wynikWieku").text("Jesteś dorosły");
+        }else if(wiek >= 65){
+            $("#wynikWieku").text("Jesteś seniorem");
+        }
+    });
+
+    // ZADANIE 4
+    let limit = 100;
+
+    $("#opis").on("input", function(e){
+        let pozostalo = limit - $(this).val().length;
+
+        if(pozostalo < 0){
+            pozostalo = 0;
+        }
+
+        if(pozostalo < 20){
+            $("#pozostalo").text("Pozostało: " + pozostalo + " znaków").css("color", "red");
+        }else{
+            $("#pozostalo").text("Pozostało: " + pozostalo + " znaków").css("color", "green");
+        }
+    });
+
+    // ZADANIE 5
+    let miejsca = 10;
+
+    $("#rezerwuj").on("click", function(){
+
+        if(miejsca > 0){
+            miejsca -= 1;
+        }
+
+        if(miejsca == 0){
+            $("#komunikatMiejsc").text("Brak Miejsc, przepraszamy");
+        }
+
+        $("#miejsca").text(miejsca);
+    });
+
+    $("#anuluj").on("click", function(){
+
+        miejsca += 1;
+
+        if(miejsca > 10){
+            miejsca = 10;
+        }
+
+        if(miejsca > 0){
+            $("#komunikatMiejsc").text("");
+        }
+
+        $("#miejsca").text(miejsca);
+    });
+
+    // ZADANIE 6
+    $(".rozmiar").click(function(){
+
+        let wybrany = $(this).text();
+
+        $("#wybranyRozmiar").text("Wybrany rozmiar: " + wybrany);
+
+        $(".rozmiar").removeClass("aktywny");
+        $(this).addClass("aktywny");
+
+    });
+
+    // ZADANIE 7
+    $("#sprawdzImie").on("click", function(){
+
+        let imie = $("#imie").val().trim();
+        let dlugoscImienia = imie.length;
+
+        if(imie === ""){
+            $("#wynikImienia").text("Pusto tutaj...");
+        }else if(dlugoscImienia < 3){
+            $("#wynikImienia").text("Za krotkie imie");
+        }else if(dlugoscImienia >= 3 && dlugoscImienia <= 8){
+            $("#wynikImienia").text("Poprawne imie");
+        }else if(dlugoscImienia > 8){
+            $("#wynikImienia").text("Bardzo długie imie");
+        }
+
+    });
+
+    // ZADANIE 8
+    $("#dobreOceny").click(function(){
+
+        $("#uczniowie li").each(function(){
+
+            let tekst = $(this).text();
+            let ocena = tekst.split("-")[1].trim();
+
+            if(ocena >= 4){
+                $(this).show();
+            }else{
+                $(this).hide();
+            }
+
+        });
+
+    });
+
+    $("#wszystkieOceny").click(function(){
+
+        $("#uczniowie li").each(function(){
+            $(this).show();
+        });
+
+    });
+
+    // ZADANIE 9
+    let pin = 1234;
+
+    $("#sprawdzPin").click(function(){
+
+        let wartosc = $("#pin").val().trim();
+
+        if(wartosc === ""){
+            $("#wynikPin").text("Wpisz PIN");
+        }else if(wartosc == pin){
+            $("#wynikPin").text("Dostęp przyznany");
+        }else{
+            $("#wynikPin").text("Błędny pin");
+        }
+
+    });
+
+    // ZADANIE 10
+    let bilety = 0;
+
+    $("#kupBilet").click(function(){
+
+        bilety += 1;
+
+        let koszt = bilety * 30;
+
+        $("#bilety").text("Liczba biletow: " + bilety);
+        $("#kosztBiletow").text("Koszt: " + koszt + "zł");
+
+        if(koszt > 150){
+            $("#kosztBiletow").css("color", "red");
+        }else{
+            $("#kosztBiletow").css("color", "black");
+        }
+
+    });
+
+    // ZADANIE 11
+    $(".ulubiony").click(function(){
+
+        $(this).prev().toggleClass("zaznaczony");
+
+    });
+
+    // ZADANIE 12
+    $("#sprawdzCene").click(function(){
+
+        let cena = $("#cenaProduktu").val().trim();
+
+        if(cena === "" || cena < 0){
+            $("#wynikCeny").text("Błąd we wpisywaniu");
+        }else if(cena < 50){
+            $("#wynikCeny").text("Tani produkt");
+        }else if(cena <= 200){
+            $("#wynikCeny").text("Średnia cena");
+        }else{
+            $("#wynikCeny").text("Drogi produkt");
+        }
+
+    });
+
+    // ZADANIE 13
+    $("#szczegolyButton").click(function(){
+
+        $("#szczegoly").toggle(2000);
+
+        if($("#szczegoly").is(":visible")){
+            $(this).text("Ukryj szczegóły");
+        }else{
+            $(this).text("Pokaż szczegóły");
+        }
+
+    });
+
+    // ZADANIE 14
+    $("#sprawdzPunkty").click(function(){
+
+        let pkt = $("#punktyGracza").val().trim();
+
+        if(pkt === "" || pkt < 0){
+            $("#wynikPunktow").text("error w wpisywaniu");
+        }else if(pkt < 100){
+            $("#wynikPunktow").text("Początkujący");
+        }else if(pkt >= 100 && pkt <= 499){
+            $("#wynikPunktow").text("Średniozaawansowany");
+        }else if(pkt >= 500 && pkt <= 999){
+            $("#wynikPunktow").text("Zaawansowany");
+        }else if(pkt >= 1000){
+            $("#wynikPunktow").text("Mistrz");
+        }
+
+    });
+
+    // ZADANIE 15
+    let odwiedziny = 0;
+
+    $("#odwiedziny").click(function(){
+
+        odwiedziny++;
+
+        $("#liczbaOdwiedzin").text("Odwiedzono nas: " + odwiedziny + " razy");
+
+        if(odwiedziny >= 10){
+            $("#statusOdwiedzin").text("Jesteś naszym stałym gościem");
+        }else if(odwiedziny >= 5){
+            $("#statusOdwiedzin").text("Często nas odwiedzasz");
+        }
+
+    });
+
+    // ZADANIE 16
+    let ilosc = 5;
+
+    $("#kupProdukt").click(function(){
+
+        if(ilosc > 0){
+            ilosc--;
+        }
+
+        $("#stanMagazynu").text(ilosc);
+
+        if(ilosc == 0){
+            $("#kupProdukt").prop("disabled", true);
+            $("#statusProduktu").text("Produkt niedostępny");
+        }else if(ilosc <= 2){
+            $("#statusProduktu").text("Ostatnie sztuki");
+        }
+
+    });
+
+});
+</script>
+<body>
+
+<h1>Powtórka jQuery – zestaw 2</h1>
+
+<h2>1. Ocena produktów</h2>
+<section>
+    <ul id="produkty">
+        <li>Laptop: 5/5</li>
+        <li>Telefon: 3/5</li>
+        <li>Mysz: 4/5</li>
+        <li>Monitor: 2/5</li>
+        <li>Klawiatura: 5/5</li>
+    </ul>
+
+    <p>Zadanie:</p>
+    <ul>
+        <li>Elementy z oceną 5/5 ustaw na zielono.</li>
+        <li>Elementy z oceną 2/5 ustaw na czerwono.</li>
+        <li>Pogrub wszystkie produkty z oceną minimum 4/5.</li>
+    </ul>
+</section>
+
+<h2>2. Powiększanie obrazka</h2>
+<section>
+    <p id="obrazek">🖼️ Mój obrazek</p>
+
+    <button id="powiekszObrazek">Powiększ</button>
+    <button id="zmniejszObrazek">Zmniejsz</button>
+
+    <p>Zadanie:</p>
+    <ul>
+        <li>Rozpocznij od rozmiaru tekstu 20px.</li>
+        <li>Przycisk powiększa tekst o 5px.</li>
+        <li>Drugi przycisk zmniejsza tekst o 5px.</li>
+        <li>Nie pozwól zmniejszyć tekstu poniżej 10px.</li>
+    </ul>
+</section>
+
+<h2>3. Sprawdzanie wieku</h2>
+<section>
+    <input type="number" id="wiek" placeholder="Podaj swój wiek">
+    <button id="sprawdzWiek">Sprawdź</button>
+
+    <p id="wynikWieku"></p>
+
+    <p>Zadanie:</p>
+    <ul>
+        <li>Poniżej 13 lat: Jesteś dzieckiem.</li>
+        <li>Od 13 do 17 lat: Jesteś nastolatkiem.</li>
+        <li>Od 18 do 64 lat: Jesteś dorosły.</li>
+        <li>65 lat i więcej: Jesteś seniorem.</li>
+        <li>Sprawdź również, czy pole nie jest puste.</li>
+    </ul>
+</section>
+
+<h2>4. Licznik pozostałych znaków</h2>
+<section>
+    <textarea id="opis" maxlength="100"
+        placeholder="Napisz opis..."></textarea>
+
+    <p id="pozostalo">Pozostało: 100 znaków</p>
+
+    <p>Zadanie:</p>
+    <ul>
+        <li>Limit wynosi 100 znaków.</li>
+        <li>Podczas pisania aktualizuj liczbę pozostałych znaków.</li>
+        <li>Jeśli pozostało mniej niż 20 znaków, zmień kolor na czerwony.</li>
+        <li>W przeciwnym razie ustaw kolor zielony.</li>
+    </ul>
+</section>
+
+<h2>5. Sprawdzanie dostępności miejsc</h2>
+<section>
+    <p>Dostępne miejsca: <span id="miejsca">10</span></p>
+
+    <button id="rezerwuj">Zarezerwuj miejsce</button>
+    <button id="anuluj">Anuluj rezerwację</button>
+
+    <p id="komunikatMiejsc"></p>
+
+    <p>Zadanie:</p>
+    <ul>
+        <li>Rezerwacja zmniejsza liczbę miejsc o 1.</li>
+        <li>Anulowanie zwiększa liczbę miejsc o 1.</li>
+        <li>Nie pozwól zejść poniżej 0.</li>
+        <li>Nie pozwól przekroczyć początkowej liczby 10 miejsc.</li>
+        <li>Jeśli nie ma miejsc, wyświetl komunikat.</li>
+    </ul>
+</section>
+
+<h2>6. Wybór rozmiaru ubrania</h2>
+<section>
+    <button class="rozmiar">S</button>
+    <button class="rozmiar">M</button>
+    <button class="rozmiar">L</button>
+    <button class="rozmiar">XL</button>
+
+    <p id="wybranyRozmiar">Nie wybrano rozmiaru.</p>
+
+    <p>Zadanie:</p>
+    <ul>
+        <li>Po kliknięciu przycisku wyświetl wybrany rozmiar.</li>
+        <li>Dodaj klasę aktywny do klikniętego przycisku.</li>
+        <li>Usuń tę klasę z pozostałych przycisków.</li>
+    </ul>
+</section>
+
+<h2>7. Sprawdzanie długości imienia</h2>
+<section>
+    <input type="text" id="imie" placeholder="Wpisz imię">
+    <button id="sprawdzImie">Sprawdź</button>
+
+    <p id="wynikImienia"></p>
+
+    <p>Zadanie:</p>
+    <ul>
+        <li>Jeśli imię ma mniej niż 3 znaki, wyświetl komunikat.</li>
+        <li>Jeśli ma od 3 do 8 znaków, wyświetl „Poprawne imię”.</li>
+        <li>Jeśli ma więcej niż 8 znaków, wyświetl „Bardzo długie imię”.</li>
+        <li>Sprawdź, czy pole nie jest puste.</li>
+    </ul>
+</section>
+
+<h2>8. Filtrowanie ocen uczniów</h2>
+<section>
+    <ul id="uczniowie">
+        <li>Adam - 2</li>
+        <li>Kuba - 5</li>
+        <li>Ola - 4</li>
+        <li>Marek - 1</li>
+        <li>Ania - 6</li>
+        <li>Piotr - 3</li>
+    </ul>
+
+    <button id="dobreOceny">Dobre oceny</button>
+    <button id="wszystkieOceny">Wszyscy uczniowie</button>
+
+    <p>Zadanie:</p>
+    <ul>
+        <li>Po kliknięciu „Dobre oceny” pokaż uczniów z oceną 4 lub wyższą.</li>
+        <li>Ukryj pozostałych uczniów.</li>
+        <li>Drugi przycisk pokazuje wszystkich uczniów.</li>
+        <li>Użyj each().</li>
+    </ul>
+</section>
+
+<h2>9. Sprawdzanie numeru PIN</h2>
+<section>
+    <input type="password" id="pin" placeholder="Wpisz PIN">
+    <button id="sprawdzPin">Sprawdź PIN</button>
+
+    <p id="wynikPin"></p>
+
+    <p>Zadanie:</p>
+    <ul>
+        <li>Prawidłowy PIN to 1234.</li>
+        <li>Jeśli PIN jest poprawny, wyświetl „Dostęp przyznany”.</li>
+        <li>Jeśli jest błędny, wyświetl „Błędny PIN”.</li>
+        <li>Jeśli pole jest puste, poproś o wpisanie PIN-u.</li>
+    </ul>
+</section>
+
+<h2>10. Licznik zakupionych biletów</h2>
+<section>
+    <p>Cena biletu: 30 zł</p>
+
+    <button id="kupBilet">Kup bilet</button>
+
+    <p id="bilety">Liczba biletów: 0</p>
+    <p id="kosztBiletow">Koszt: 0 zł</p>
+
+    <p>Zadanie:</p>
+    <ul>
+        <li>Każde kliknięcie kupuje jeden bilet.</li>
+        <li>Aktualizuj liczbę biletów.</li>
+        <li>Oblicz całkowity koszt.</li>
+        <li>Jeśli koszt przekroczy 150 zł, zmień kolor wyniku na czerwony.</li>
+    </ul>
+</section>
+
+<h2>11. Zaznaczanie ulubionych</h2>
+<section>
+    <ul id="filmy">
+        <li><span>Avatar</span> <button class="ulubiony">Ulubiony</button></li>
+        <li><span>Shrek</span> <button class="ulubiony">Ulubiony</button></li>
+        <li><span>Batman</span> <button class="ulubiony">Ulubiony</button></li>
+        <li><span>Spider-Man</span> <button class="ulubiony">Ulubiony</button></li>
+    </ul>
+
+    <p>Zadanie:</p>
+    <ul>
+        <li>Po kliknięciu przycisku zmień wygląd nazwy filmu.</li>
+        <li>Dodaj lub usuń klasę zaznaczony.</li>
+        <li>Użyj prev() i toggleClass().</li>
+    </ul>
+</section>
+
+<h2>12. Sprawdzanie ceny produktu</h2>
+<section>
+    <input type="number" id="cenaProduktu"
+        placeholder="Podaj cenę produktu">
+
+    <button id="sprawdzCene">Sprawdź cenę</button>
+
+    <p id="wynikCeny"></p>
+
+    <p>Zadanie:</p>
+    <ul>
+        <li>Poniżej 50 zł: Tani produkt.</li>
+        <li>Od 50 do 200 zł: Średnia cena.</li>
+        <li>Powyżej 200 zł: Drogi produkt.</li>
+        <li>Nie pozwól wpisać pustej lub ujemnej ceny.</li>
+    </ul>
+</section>
+
+<h2>13. Ukrywanie szczegółów produktu</h2>
+<section>
+    <p>Produkt: Laptop</p>
+
+    <div id="szczegoly">
+        <p>Procesor: Intel i7</p>
+        <p>RAM: 16 GB</p>
+        <p>Dysk: 512 GB SSD</p>
+    </div>
+
+    <button id="szczegolyButton">Ukryj szczegóły</button>
+
+    <p>Zadanie:</p>
+    <ul>
+        <li>Po kliknięciu ukryj szczegóły produktu.</li>
+        <li>Po kolejnym kliknięciu pokaż szczegóły.</li>
+        <li>Zmień tekst przycisku zależnie od widoczności.</li>
+    </ul>
+</section>
+
+<h2>14. Sprawdzanie punktów gracza</h2>
+<section>
+    <input type="number" id="punktyGracza"
+        placeholder="Podaj liczbę punktów">
+
+    <button id="sprawdzPunkty">Sprawdź</button>
+
+    <p id="wynikPunktow"></p>
+
+    <p>Zadanie:</p>
+    <ul>
+        <li>Poniżej 100 punktów: Początkujący.</li>
+        <li>Od 100 do 499: Średniozaawansowany.</li>
+        <li>Od 500 do 999: Zaawansowany.</li>
+        <li>1000 i więcej: Mistrz.</li>
+        <li>Sprawdź, czy wpisano poprawną wartość.</li>
+    </ul>
+</section>
+
+<h2>15. Licznik odwiedzin strony</h2>
+<section>
+    <button id="odwiedziny">Odwiedź stronę</button>
+
+    <p id="liczbaOdwiedzin">Odwiedziny: 0</p>
+    <p id="statusOdwiedzin"></p>
+
+    <p>Zadanie:</p>
+    <ul>
+        <li>Każde kliknięcie zwiększa liczbę odwiedzin o 1.</li>
+        <li>Po 5 odwiedzinach wyświetl „Często nas odwiedzasz!”.</li>
+        <li>Po 10 odwiedzinach wyświetl „Jesteś naszym stałym gościem!”.</li>
+    </ul>
+</section>
+
+<h2>16. Sprawdzanie dostępności produktu</h2>
+<section>
+    <p>Produkt: Słuchawki</p>
+    <p>Stan magazynowy: <span id="stanMagazynu">5</span></p>
+
+    <button id="kupProdukt">Kup produkt</button>
+
+    <p id="statusProduktu"></p>
+
+    <p>Zadanie:</p>
+    <ul>
+        <li>Każde kliknięcie zmniejsza stan magazynowy o 1.</li>
+        <li>Jeśli stan wynosi 0, wyświetl „Produkt niedostępny”.</li>
+        <li>Po wyczerpaniu produktu zablokuj przycisk.</li>
+        <li>Jeśli zostały maksymalnie 2 sztuki, wyświetl „Ostatnie sztuki!”.</li>
+    </ul>
+</section>
+
+</body>
+</html>
